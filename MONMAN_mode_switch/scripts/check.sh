@@ -1,9 +1,17 @@
 #!/bin/bash
 
 clear
-echo "Checking" $wirelessname ".."
 
-/sbin/iwconfig $wirelessname | grep 'Mode:'
+if [[ $wirelessname == "No interface selected." ]]
+then
+echo "No interface selected!"
+else
+echo "Checking" $wirelessname".."
+echo
+/sbin/iwconfig $wirelessname
+fi
+echo
+read -p "Press [ENTER] to continue."
 
 export wirelessname
 bash ~/runme.sh

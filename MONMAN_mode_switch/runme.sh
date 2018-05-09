@@ -1,13 +1,17 @@
 #!/bin/bash
-
-wirelessname="No wireless interface selected."
 clear
-echo "Simple mode menu"
+if [ $wirelessname -z ]
+then
+wirelessname="No interface selected."
+elif [[ $wirelessname == "No interface selected." ]]
+then
+wirelessname="No interface selected."
+fi
+echo "WIFI MODE MENU"
 echo
 echo -e "Interface selected:" "\e[31m"$wirelessname"\e[0m"
-
 PS3='Enter Number: '
-option1=( "Select wireless interface" "ENABLE monitor mode" "DISABLE monitor mode" "CHECK monitor mode" "Exit script" )
+option1=( "Select wireless interface" "ENABLE monitor mode" "DISABLE monitor mode" "CHECK monitor mode" "Scan for networks" "TEST injection" "Exit script" )
 select opt1 in "${option1[@]}"
 do
 case $opt1 in
@@ -29,7 +33,17 @@ bash scripts/disable.sh
 export wirelessname
 bash scripts/check.sh
 ;;
+"Scan for networks")
+export wirelessname
+gnome-terminal -x sh -c "airodump-ng $wirelessname; bash"
+;;
+"TEST injection")
+aireplay-ng -9 $wirelessname
+;;
 "Exit script")
+clear
+echo "Stopping script.."
+exit 0
 break
 ;;
 *) echo "Invalid option";;
