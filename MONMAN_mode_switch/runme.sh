@@ -9,9 +9,12 @@ wirelessname="No interface selected."
 fi
 echo "WIFI MODE MENU"
 echo
+echo "CTRL-C to stop script at anytime."
+echo
 echo -e "Interface selected:" "\e[31m"$wirelessname"\e[0m"
-PS3='Enter Number: '
-option1=( "Select wireless interface" "ENABLE monitor mode" "DISABLE monitor mode" "CHECK monitor mode" "Scan for networks" "TEST injection" "Exit script" )
+echo
+PS3='Enter number: '
+option1=( "Select wireless interface" "ENABLE monitor mode" "DISABLE monitor mode" "CHECK monitor mode" "Scan for networks" "TEST injection" )
 select opt1 in "${option1[@]}"
 do
 case $opt1 in
@@ -40,12 +43,7 @@ gnome-terminal -x sh -c "airodump-ng $wirelessname; bash"
 "TEST injection")
 aireplay-ng -9 $wirelessname
 ;;
-"Exit script")
-clear
-echo "Stopping script.."
-exit 0
-break
-;;
+
 *) echo "Invalid option";;
 esac
 
